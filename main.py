@@ -174,21 +174,21 @@ if __name__ == '__main__':
     #print(table_wazir)
 
 
-    time.sleep(2)
-    table_mudrex = stock_prices_mudrex()
-    wks.append_rows(table_mudrex[:20])
-    #print(table_mudrex)
+    # time.sleep(2)
+    # table_mudrex = stock_prices_mudrex()
+    # wks.append_rows(table_mudrex[:20])
+    # #print(table_mudrex)
 
-    time.sleep(2)
-    table_coinswitch = stock_prices_coinswitch()
-    wks.append_rows(table_coinswitch)
-    #print(table_coinswitch[:20])
+    # time.sleep(2)
+    # table_coinswitch = stock_prices_coinswitch()
+    # wks.append_rows(table_coinswitch)
+    # #print(table_coinswitch[:20])
 
 
-    time.sleep(2)
-    table_coindcx = stock_prices_coindcx()
-    wks.append_rows(table_coindcx)
+    # time.sleep(2)
+    # table_coindcx = stock_prices_coindcx()
+    # wks.append_rows(table_coindcx)
 
-    #wks.append_rows(table_wazir)
+    # #wks.append_rows(table_wazir)
 
  

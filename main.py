@@ -30,7 +30,7 @@ def stock_prices_mudrex():
                 name = row.find('a').text
                 price = row.find('td',class_ = 'p-6 font-medium h-8 text-sm align-middle text-right').text
                 row_data = [name,price,'Mudrex',present_time]
-                print(row_data)
+                #print(row_data)
                 tabular_data.append(row_data)
             return tabular_data
         else:
@@ -48,36 +48,37 @@ def stock_prices_mudrex():
 def stock_prices_wazirx():
     url = 'https://wazirx.com/exchange/BTC-INR'
 
-    session = HTMLSession()
-    response = session.get(url)
-    tabular_data = []
-    try:
-        if response.status_code == 200:
-            response.html.render()
-            present_time = datetime.now()
-            present_time = present_time.isoformat()
-            soup = BeautifulSoup(response.html.html,'lxml')
-            table_anchor = soup.find_all('a',class_='ticker-item')
-            for row in table_anchor:
-                #print(row, '\n\n',row.text,'\n\n\n')
-                name_tag = row.find('span',class_='market-name-text').text.lower()
-                price = row.find('span',class_ = 'price-text ticker-price').text
-                #print(name)
-                name = name_tag.split('/')[0]
-                #print(name)
-                #print(price)
-                row_data = [name,price,'WazirX',present_time]
-                tabular_data.append(row_data)
-            return tabular_data[:20]
-        else:
-            print('connection not successful.')
+    # session = HTMLSession()
+    with HTMLSession() as session:
+        response = session.get(url)
+        tabular_data = []
+        try:
+            if response.status_code == 200:
+                response.html.render()
+                present_time = datetime.now()
+                present_time = present_time.isoformat()
+                soup = BeautifulSoup(response.html.html,'lxml')
+                table_anchor = soup.find_all('a',class_='ticker-item')
+                for row in table_anchor:
+                    #print(row, '\n\n',row.text,'\n\n\n')
+                    name_tag = row.find('span',class_='market-name-text').text.lower()
+                    price = row.find('span',class_ = 'price-text ticker-price').text
+                    #print(name)
+                    name = name_tag.split('/')[0]
+                    #print(name)
+                    #print(price)
+                    row_data = [name,price,'WazirX',present_time]
+                    tabular_data.append(row_data)
+                return tabular_data[:20]
+            else:
+                print('connection not successful.')
+                t_data = stock_prices_wazirx()
+                return t_data[:20]
+        except ConnectionResetError:
+            time.sleep(2)
+            print('connection error wazir')
             t_data = stock_prices_wazirx()
             return t_data[:20]
-    except ConnectionResetError:
-        time.sleep(2)
-        print('connection error wazir')
-        t_data = stock_prices_wazirx()
-        return t_data[:20]
 
 
 def stock_prices_coindcx():
@@ -113,6 +114,9 @@ def stock_prices_coindcx():
         return tabular_data[:20]
     except Exception as e:
         print('There is an error: ',e)
+    
+    finally:
+        scrapfly.close()
 
 
 def stock_prices_coinswitch():
@@ -147,12 +151,13 @@ def stock_prices_coinswitch():
             price = row.find('div',class_ = 'cdt-trends-right').find('div',class_='cdt-trends-top').text
             clean_row = [name,'₹'+price,website,present_time]
             tabular_data.append(clean_row)
-        return tabular_data[:20]
-    except:
+        return tabular_data
+    except Exception as e:
         time.sleep(2)
-        print('connection error coinswitch')
-        t_data  = stock_prices_coinswitch()
-        return t_data
+        print('connection error coinswitch',e)
+    finally:
+        scrapfly.close()
+      
 
 
 if __name__ == '__main__':
@@ -163,7 +168,7 @@ if __name__ == '__main__':
     wks = sh.worksheet('Sheet1')
     
     table_wazir = stock_prices_wazirx()
-    wks.append_rows(table_wazir[:20])
+    # wks.append_rows(table_wazir[:20])
     #print(table_wazir)
 
 
@@ -174,15 +179,15 @@ if __name__ == '__main__':
 
     time.sleep(2)
     table_coinswitch = stock_prices_coinswitch()
-    wks.append_rows(table_coinswitch[:20])
+    wks.append_rows(table_coinswitch)
     #print(table_coinswitch[:20])
 
 
     time.sleep(2)
     table_coindcx = stock_prices_coindcx()
     wks.append_rows(table_coindcx)
-    
-    wks.append_rows(table_wazir[:20])
+
+    wks.append_rows(table_wazir)
 
     #sa = gspread.service_account(filename='grull_round/.config/gspread/service_account.json')
     

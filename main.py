@@ -73,12 +73,13 @@ def stock_prices_wazirx():
             else:
                 print('connection not successful.')
                 t_data = stock_prices_wazirx()
-                return t_data[:20]
+                return t_data
         except ConnectionResetError:
             time.sleep(2)
             print('connection error wazir')
             t_data = stock_prices_wazirx()
-            return t_data[:20]
+            return t_data
+        
 
 
 def stock_prices_coindcx():

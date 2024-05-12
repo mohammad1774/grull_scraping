@@ -8,8 +8,42 @@ import logging.handlers
 import os
 import requests
 
-
 def stock_prices_coinswitch():
+    tabular_data = []
+    url = 'https://coinswitch.co/coins/'
+    session = HTMLSession()
+    response = session.get(url)
+    present_time = datetime.now()
+    present_time = present_time.isoformat()
+    website = 'Coin Switch'
+    try:
+        if response.status_code == 200:
+            response.html.render()
+
+            soup = BeautifulSoup(response.html.html,'lxml')
+            table = soup.find('div',class_='cdt-prices-container')
+            table_container = table.find('div',class_='small-price-container').find('div',class_='price-chart').find('div',class_='coinlist-container')
+            rows = []
+            for i in range(20):
+                row = table_container.find('div',class_=f'cdt-trends-div-map switch{i}')
+                rows.append(row)
+                #print('\n\n\n',row.text)
+                name = row.find('div',class_='cdt-trends-left').find('div',class_ = '').text
+                price = row.find('div',class_ = 'cdt-trends-right').find('div',class_='cdt-trends-top').text
+                clean_row = [name,'₹'+price,website,present_time]
+                tabular_data.append(clean_row)
+            return tabular_data[:20]
+        else:
+            print('connection not successfull.')
+            t_data = stock_prices_coinswitch()
+            return t_data
+
+    except AttributeError:
+        print('connection error')
+        t_data  = stock_prices_coinswitch()
+        return t_data
+
+def stock_price_coinswitch():
     tabular_data = []
     url = 'https://coinswitch.co/coins/'
     session = HTMLSession()

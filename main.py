@@ -6,6 +6,7 @@ import pickle
 import logging
 import logging.handlers
 import os
+import requests
 
 
 def stock_prices_coinswitch():
@@ -43,9 +44,42 @@ def stock_prices_coinswitch():
         t_data  = stock_prices_coinswitch()
         return t_data
 
-
-
 def stock_prices_mudrex():
+    url = 'https://mudrex.com/all-cryptocurrencies'
+    tabular_data = []
+
+
+    #session = HTMLSession()
+    response = requests.get(url)
+
+
+    try:
+        if response.status_code == 200:
+            #response.html.render()
+            present_time = datetime.now()
+            present_time = present_time.isoformat()
+            soup = BeautifulSoup(response.text, 'lxml')
+            table1 = soup.find('div',class_='w-full overflow-x-auto').find('table')
+            tbody = table1.find('tbody',class_='table-contents')
+            for row in tbody.find_all('tr'):
+                #print(row,'\n',row.text,'\n\n\n')
+                name = row.find('a').text
+                price = row.find('td',class_ = 'p-6 font-medium h-8 text-sm align-middle text-right').text
+                row_data = [name,price,'Mudrex',present_time]
+                print(row_data)
+                tabular_data.append(row_data)
+            return tabular_data
+        else:
+            print('connection not successful.')
+            t_data = stock_prices_mudrex()
+            return t_data
+           # print(tbody.text)
+    except ConnectionResetError:
+        t_data = stock_prices_mudrex()
+        return t_data
+    
+
+def stock_price_mudrex():
     url = 'https://mudrex.com/all-cryptocurrencies'
     tabular_data = []
 

@@ -4,10 +4,11 @@ from datetime import datetime
 import gspread
 import pickle
 import requests
+import time
 
 def stock_prices_coinswitch():
     tabular_data = []
-    url = 'https://coinswitch.co/coins/'
+    url = 'https://coinswitch.co/coins'
     session = HTMLSession()
     response = session.get(url)
     present_time = datetime.now()
@@ -35,8 +36,9 @@ def stock_prices_coinswitch():
             t_data = stock_prices_coinswitch()
             return t_data
 
-    except AttributeError:
-        print('connection error')
+    except:
+        time.sleep(2)
+        print('connection error coinswitch')
         t_data  = stock_prices_coinswitch()
         return t_data
 
@@ -105,7 +107,9 @@ def stock_prices_mudrex():
             t_data = stock_prices_mudrex()
             return t_data
            # print(tbody.text)
-    except ConnectionResetError:
+    except:
+        time.sleep(2)
+        print('connection error mudrex')
         t_data = stock_prices_mudrex()
         return t_data
     
@@ -174,6 +178,8 @@ def stock_prices_wazirx():
             t_data = stock_prices_wazirx()
             return t_data[:20]
     except ConnectionResetError:
+        time.sleep(2)
+        print('connection error wazir')
         t_data = stock_prices_wazirx()
         return t_data[:20]
 
@@ -189,14 +195,18 @@ if __name__ == '__main__':
     
     table_wazir = stock_prices_wazirx()
     wks.append_rows(table_wazir)
+    print(table_wazir)
 
 
+    time.sleep(2)
     table_mudrex = stock_prices_mudrex()
     wks.append_rows(table_mudrex[:20])
+    print(table_mudrex)
 
-
+    time.sleep(2)
     table_coinswitch = stock_prices_coinswitch()
     wks.append_rows(table_coinswitch)
+    print(table_coinswitch)
 
     #sa = gspread.service_account(filename='grull_round/.config/gspread/service_account.json')
     

@@ -75,9 +75,9 @@ def stock_prices_wazirx():
                 print('connection not successful.')
                 t_data = stock_prices_wazirx()
                 return t_data
-        except ConnectionResetError:
+        except Exception as e:
             time.sleep(2)
-            print('connection error wazir')
+            print('connection error wazir',e)
             t_data = stock_prices_wazirx()
             return t_data
         

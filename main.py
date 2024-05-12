@@ -194,7 +194,7 @@ if __name__ == '__main__':
     wks = sh.worksheet('Sheet1')
     
     table_wazir = stock_prices_wazirx()
-    wks.append_rows(table_wazir)
+    wks.append_rows(table_wazir[:20])
     print(table_wazir)
 
 
@@ -205,8 +205,8 @@ if __name__ == '__main__':
 
     time.sleep(2)
     table_coinswitch = stock_prices_coinswitch()
-    wks.append_rows(table_coinswitch)
-    print(table_coinswitch)
+    wks.append_rows(table_coinswitch[:20])
+    print(table_coinswitch[:20])
 
     #sa = gspread.service_account(filename='grull_round/.config/gspread/service_account.json')
     

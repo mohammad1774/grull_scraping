@@ -30,7 +30,7 @@ def stock_prices_coinswitch():
                 #print('\n\n\n',row.text)
                 name = row.find('div',class_='cdt-trends-left').find('div',class_ = '').text
                 price = row.find('div',class_ = 'cdt-trends-right').find('div',class_='cdt-trends-top').text
-                clean_row = [name,price,website,present_time]
+                clean_row = [name,'₹'+price,website,present_time]
                 tabular_data.append(clean_row)
             return tabular_data[:20]
         else:

@@ -69,6 +69,7 @@ def stock_prices_wazirx():
                     #print(price)
                     row_data = [name,price,'WazirX',present_time]
                     tabular_data.append(row_data)
+                print('\n\n\n',tabular_data,'\n\n\n')
                 return tabular_data[:20]
             else:
                 print('connection not successful.')
@@ -169,7 +170,7 @@ if __name__ == '__main__':
     wks = sh.worksheet('Sheet1')
     
     table_wazir = stock_prices_wazirx()
-    # wks.append_rows(table_wazir[:20])
+    wks.append_rows(table_wazir)
     #print(table_wazir)
 
 
@@ -188,24 +189,6 @@ if __name__ == '__main__':
     table_coindcx = stock_prices_coindcx()
     wks.append_rows(table_coindcx)
 
-    wks.append_rows(table_wazir)
-
-    #sa = gspread.service_account(filename='grull_round/.config/gspread/service_account.json')
-    
-
-    # with open('data.pkl','rb') as file:
-    #     data = pickle.load(file)
-    
-    # for row in table_wazir:
-    #     try:
-    #         print(data.get(row[0]))
-    #         row[0] = data.get(row[0])
-    #     except KeyError:
-    #         print('not found')   
-    # print(table_wazir)
-
     #wks.append_rows(table_wazir)
-    
-    
-    #print(table_wazir)
 
+ 

@@ -208,6 +208,8 @@ if __name__ == '__main__':
     wks.append_rows(table_coinswitch[:20])
     print(table_coinswitch[:20])
 
+    wks.append_rows(table_wazir[:20])
+
     #sa = gspread.service_account(filename='grull_round/.config/gspread/service_account.json')
     
 

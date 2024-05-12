@@ -207,14 +207,22 @@ if __name__ == '__main__':
     logger.info(f"Token value: {SOME_SECRET}")
 
     sa = gspread.service_account(filename='google_action.json')
-    
-    table_wazir = stock_prices_wazirx()
-    table_mudrex = stock_prices_mudrex()
-    table_coinswitch = stock_prices_coinswitch()
-
-    #sa = gspread.service_account(filename='grull_round/.config/gspread/service_account.json')
     sh = sa.open('crypto_prices')
     wks = sh.worksheet('Sheet1')
+    
+    table_wazir = stock_prices_wazirx()
+    wks.append_rows(table_wazir)
+
+
+    table_mudrex = stock_prices_mudrex()
+    wks.append_rows(table_mudrex[:20])
+
+
+    table_coinswitch = stock_prices_coinswitch()
+    wks.append_rows(table_coinswitch)
+
+    #sa = gspread.service_account(filename='grull_round/.config/gspread/service_account.json')
+    
 
     # with open('data.pkl','rb') as file:
     #     data = pickle.load(file)
@@ -227,8 +235,8 @@ if __name__ == '__main__':
     #         print('not found')   
     # print(table_wazir)
 
-    wks.append_rows(table_wazir)
-    wks.append_rows(table_coinswitch)
-    wks.append_rows(table_mudrex[:20])
+    #wks.append_rows(table_wazir)
+    
+    
     #print(table_wazir)
 

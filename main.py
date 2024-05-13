@@ -7,6 +7,9 @@ import requests
 import time
 from scrapfly import ScrapflyClient, ScrapeConfig, ScrapeApiResponse
 import pytz
+import os
+
+API_KEY = os.environ["api_key"]
 
 # 
 def stock_prices_mudrex():
@@ -89,7 +92,7 @@ def stock_prices_wazirx():
         
 
 def stock_wazirx():
-    api = 'scp-live-b27b2bd698bb49b0a43b9b6291f0acda'
+    api = API_KEY
     scrapfly = ScrapflyClient(key=api)
 
     result = scrapfly.scrape(
@@ -131,7 +134,7 @@ def stock_wazirx():
 
 
 def stock_prices_coindcx():
-    api = 'scp-live-b27b2bd698bb49b0a43b9b6291f0acda'
+    api = API_KEY
     scrapfly = ScrapflyClient(key=api)
 
     result = scrapfly.scrape(
@@ -172,7 +175,7 @@ def stock_prices_coindcx():
 
 
 def stock_prices_coinswitch():
-    api = 'scp-live-b27b2bd698bb49b0a43b9b6291f0acda'
+    api = API_KEY
     scrapfly = ScrapflyClient(key=api)
 
     result = scrapfly.scrape(

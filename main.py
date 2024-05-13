@@ -117,7 +117,8 @@ def stock_wazirx():
     except Exception as e:
         time.sleep(2)
         print('connection error wazir',e)
-  
+        t_data = stock_wazirx()
+        return t_data
 
 
 def stock_prices_coindcx():
@@ -153,6 +154,8 @@ def stock_prices_coindcx():
         return tabular_data[:20]
     except Exception as e:
         print('There is an error: ',e)
+        t_data = stock_prices_coindcx()
+        return t_data
     
    
 
@@ -193,7 +196,8 @@ def stock_prices_coinswitch():
     except Exception as e:
         time.sleep(2)
         print('connection error coinswitch',e)
-   
+        t_data = stock_prices_coinswitch()
+        return t_data
       
 
 
@@ -205,25 +209,30 @@ if __name__ == '__main__':
     wks = sh.worksheet('Sheet1')
     
     table_wazir = stock_wazirx()
-    wks.append_rows(table_wazir)
+    #wks.append_rows(table_wazir)
     
     #print(table_wazir)
 
 
     time.sleep(2)
     table_mudrex = stock_prices_mudrex()
-    wks.append_rows(table_mudrex[:20])
+    #wks.append_rows(table_mudrex[:20])
     #print(table_mudrex)
 
     time.sleep(2)
     table_coinswitch = stock_prices_coinswitch()
-    wks.append_rows(table_coinswitch)
+    #wks.append_rows(table_coinswitch)
     #print(table_coinswitch[:20])
 
 
     time.sleep(2)
     table_coindcx = stock_prices_coindcx()
+
+
+    wks.append_rows(table_wazir)
+    wks.append_rows(table_mudrex[:20])
     wks.append_rows(table_coindcx)
+    wks.append_rows(table_coinswitch)
 
     #wks.append_rows(table_wazir)
 

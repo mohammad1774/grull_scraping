@@ -99,7 +99,7 @@ def stock_wazirx():
 
     try:
         present_time = datetime.now()
-        present_time  = present_time.isoformat()
+        present_time  = present_time.strftime("%Y-%m-%d %H:%M")
         tabular_data = []
         table_anchor = result.soup.find_all('a',class_='ticker-item')
         for row in table_anchor:
@@ -208,7 +208,7 @@ if __name__ == '__main__':
     # sh = sa.open('crypto_prices')
     # wks = sh.worksheet('Sheet1')
     
-    table_wazir = stock_prices_wazirx()
+    table_wazir = stock_wazirx()
     print(table_wazir)
     #wks.append_rows(table_wazir)
     

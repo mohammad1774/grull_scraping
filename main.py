@@ -117,8 +117,7 @@ def stock_wazirx():
     except Exception as e:
         time.sleep(2)
         print('connection error wazir',e)
-    finally:
-        scrapfly.close()
+  
 
 
 def stock_prices_coindcx():
@@ -155,8 +154,7 @@ def stock_prices_coindcx():
     except Exception as e:
         print('There is an error: ',e)
     
-    finally:
-        scrapfly.close()
+   
 
 
 def stock_prices_coinswitch():
@@ -195,8 +193,7 @@ def stock_prices_coinswitch():
     except Exception as e:
         time.sleep(2)
         print('connection error coinswitch',e)
-    finally:
-        scrapfly.close()
+   
       
 
 

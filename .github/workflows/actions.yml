@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+  schedule:
+    - cron: '0 */2 * * *'  # Runs every 2 hours
 
 jobs:
   build:

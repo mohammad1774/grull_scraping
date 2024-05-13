@@ -6,6 +6,7 @@ import pickle
 import requests
 import time
 from scrapfly import ScrapflyClient, ScrapeConfig, ScrapeApiResponse
+import pytz
 
 # 
 def stock_prices_mudrex():
@@ -20,7 +21,9 @@ def stock_prices_mudrex():
     try:
         if response.status_code == 200:
             #response.html.render()
-            present_time = datetime.now()
+            timezone = pytz.timezone('Asia/Kolkata')  # Change 'Asia/Kolkata' to your desired timezone
+
+            present_time = datetime.now(timezone)
             present_time = present_time.strftime("%Y-%m-%d %H:%M")
             soup = BeautifulSoup(response.text, 'lxml')
             table1 = soup.find('div',class_='w-full overflow-x-auto').find('table')
@@ -55,7 +58,10 @@ def stock_prices_wazirx():
         try:
             if response.status_code == 200:
                 response.html.render()
-                present_time = datetime.now()
+                timezone = pytz.timezone('Asia/Kolkata')  # Change 'Asia/Kolkata' to your desired timezone
+
+                present_time = datetime.now(timezone)
+                #present_time = datetime.now()
                 present_time = present_time.strftime("%Y-%m-%d %H:%M")
                 soup = BeautifulSoup(response.html.html,'lxml')
                 table_anchor = soup.find_all('a',class_='ticker-item')
@@ -98,7 +104,10 @@ def stock_wazirx():
 )
 
     try:
-        present_time = datetime.now()
+        timezone = pytz.timezone('Asia/Kolkata')  # Change 'Asia/Kolkata' to your desired timezone
+
+        present_time = datetime.now(timezone)
+        #present_time = datetime.now()
         present_time  = present_time.strftime("%Y-%m-%d %H:%M")
         tabular_data = []
         table_anchor = result.soup.find_all('a',class_='ticker-item')
@@ -141,8 +150,10 @@ def stock_prices_coindcx():
         tabular_data = []
         table = result.soup.find('div',class_ = 'currency-list__container').find_all('a')
         #print(table)
+        timezone = pytz.timezone('Asia/Kolkata')  # Change 'Asia/Kolkata' to your desired timezone
 
-        present_time = datetime.now()
+        present_time = datetime.now(timezone)
+        #present_time = datetime.now()
         present_time  = present_time.strftime("%Y-%m-%d %H:%M")
         for row in table:
             name = row.find('div',class_='info').find('div',class_= 'name__container stat--strong').find('span').get_text()
@@ -173,8 +184,9 @@ def stock_prices_coinswitch():
         asp = True
     )
 )
-    
-    present_time = datetime.now()
+    timezone = pytz.timezone('Asia/Kolkata')  # Change 'Asia/Kolkata' to your desired timezone
+    present_time = datetime.now(timezone)
+    #present_time = datetime.now()
     present_time = present_time.strftime("%Y-%m-%d %H:%M")
     website = 'Coin Switch'
     try:

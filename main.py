@@ -21,7 +21,7 @@ def stock_prices_mudrex():
         if response.status_code == 200:
             #response.html.render()
             present_time = datetime.now()
-            present_time = present_time.isoformat()
+            present_time = present_time.strftime("%Y-%m-%d %H:%M")
             soup = BeautifulSoup(response.text, 'lxml')
             table1 = soup.find('div',class_='w-full overflow-x-auto').find('table')
             tbody = table1.find('tbody',class_='table-contents')
@@ -56,7 +56,7 @@ def stock_prices_wazirx():
             if response.status_code == 200:
                 response.html.render()
                 present_time = datetime.now()
-                present_time = present_time.isoformat()
+                present_time = present_time.strftime("%Y-%m-%d %H:%M")
                 soup = BeautifulSoup(response.html.html,'lxml')
                 table_anchor = soup.find_all('a',class_='ticker-item')
                 for row in table_anchor:
@@ -143,7 +143,7 @@ def stock_prices_coindcx():
         #print(table)
 
         present_time = datetime.now()
-        present_time  = present_time.isoformat()
+        present_time  = present_time.strftime("%Y-%m-%d %H:%M")
         for row in table:
             name = row.find('div',class_='info').find('div',class_= 'name__container stat--strong').find('span').get_text()
         #    print(name)
@@ -175,7 +175,7 @@ def stock_prices_coinswitch():
 )
     
     present_time = datetime.now()
-    present_time = present_time.isoformat()
+    present_time = present_time.strftime("%Y-%m-%d %H:%M")
     website = 'Coin Switch'
     try:
         tabular_data = []
@@ -204,11 +204,12 @@ def stock_prices_coinswitch():
 if __name__ == '__main__':
     
 
-    sa = gspread.service_account(filename='google_action.json')
-    sh = sa.open('crypto_prices')
-    wks = sh.worksheet('Sheet1')
+    # sa = gspread.service_account(filename='google_action.json')
+    # sh = sa.open('crypto_prices')
+    # wks = sh.worksheet('Sheet1')
     
-    table_wazir = stock_wazirx()
+    table_wazir = stock_prices_wazirx()
+    print(table_wazir)
     #wks.append_rows(table_wazir)
     
     #print(table_wazir)
@@ -216,24 +217,37 @@ if __name__ == '__main__':
 
     time.sleep(2)
     table_mudrex = stock_prices_mudrex()
-    #wks.append_rows(table_mudrex[:20])
-    #print(table_mudrex)
+    print(table_mudrex)
+    # #wks.append_rows(table_mudrex[:20])
+    # #print(table_mudrex)
 
     time.sleep(2)
     table_coinswitch = stock_prices_coinswitch()
-    #wks.append_rows(table_coinswitch)
-    #print(table_coinswitch[:20])
+    print(table_coinswitch)
+    # #wks.append_rows(table_coinswitch)
+    # #print(table_coinswitch[:20])
 
 
     time.sleep(2)
     table_coindcx = stock_prices_coindcx()
+    print(table_coindcx)
 
+    # wks.append_rows(table_wazir)
+    # wks.append_rows(table_mudrex[:20])
+    # wks.append_rows(table_coindcx)
+    # wks.append_rows(table_coinswitch)
+
+    #wks.append_rows(table_wazir)
+
+
+    time.sleep(5)
+    sa = gspread.service_account(filename='google_action.json')
+    sh = sa.open('crypto_prices')
+    wks = sh.worksheet('Sheet1')
 
     wks.append_rows(table_wazir)
     wks.append_rows(table_mudrex[:20])
     wks.append_rows(table_coindcx)
     wks.append_rows(table_coinswitch)
-
-    #wks.append_rows(table_wazir)
-
+    
  

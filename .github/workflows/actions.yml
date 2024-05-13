@@ -6,6 +6,9 @@ on:
       - main
   schedule:
     - cron: '0 */2 * * *'  # Runs every 2 hours
+  
+env:
+  api_key: ${{ secrets.API_KEY }}
 
 jobs:
   build:

@@ -82,6 +82,44 @@ def stock_prices_wazirx():
             return t_data
         
 
+def stock_wazirx():
+    api = 'scp-live-b27b2bd698bb49b0a43b9b6291f0acda'
+    scrapfly = ScrapflyClient(key=api)
+
+    result = scrapfly.scrape(
+    ScrapeConfig(
+        url = 'https://wazirx.com/exchange/BTC-INR',
+        country = 'in',
+        proxy_pool = 'public_residential_pool',
+        render_js=True,
+        asp = True,
+    
+    )
+)
+
+    try:
+        present_time = datetime.now()
+        present_time  = present_time.isoformat()
+        tabular_data = []
+        table_anchor = result.soup.find_all('a',class_='ticker-item')
+        for row in table_anchor:
+            #print(row, '\n\n',row.text,'\n\n\n')
+            name_tag = row.find('span',class_='market-name-text').text.lower()
+            price = row.find('span',class_ = 'price-text ticker-price').text
+            #print(name)
+            name = name_tag.split('/')[0]
+            #print(name)
+            #print(price)
+            row_data = [name,price,'WazirX',present_time]
+            tabular_data.append(row_data)
+        print('\n\n\n',tabular_data,'\n\n\n')
+        return tabular_data[:20]
+    except Exception as e:
+        time.sleep(2)
+        print('connection error wazir',e)
+    finally:
+        scrapfly.close()
+
 
 def stock_prices_coindcx():
     api = 'scp-live-b27b2bd698bb49b0a43b9b6291f0acda'
@@ -169,26 +207,27 @@ if __name__ == '__main__':
     sh = sa.open('crypto_prices')
     wks = sh.worksheet('Sheet1')
     
-    table_wazir = stock_prices_wazirx()
+    table_wazir = stock_wazirx()
     wks.append_rows(table_wazir)
+    
     #print(table_wazir)
 
 
-    # time.sleep(2)
-    # table_mudrex = stock_prices_mudrex()
-    # wks.append_rows(table_mudrex[:20])
-    # #print(table_mudrex)
+    time.sleep(2)
+    table_mudrex = stock_prices_mudrex()
+    wks.append_rows(table_mudrex[:20])
+    #print(table_mudrex)
 
-    # time.sleep(2)
-    # table_coinswitch = stock_prices_coinswitch()
-    # wks.append_rows(table_coinswitch)
-    # #print(table_coinswitch[:20])
+    time.sleep(2)
+    table_coinswitch = stock_prices_coinswitch()
+    wks.append_rows(table_coinswitch)
+    #print(table_coinswitch[:20])
 
 
-    # time.sleep(2)
-    # table_coindcx = stock_prices_coindcx()
-    # wks.append_rows(table_coindcx)
+    time.sleep(2)
+    table_coindcx = stock_prices_coindcx()
+    wks.append_rows(table_coindcx)
 
-    # #wks.append_rows(table_wazir)
+    #wks.append_rows(table_wazir)
 
  
